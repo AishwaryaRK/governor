@@ -1,0 +1,7 @@
+test:
+  adapter: async
+
+development:
+  adapter: redis
+  url: <%= "redis://ENV['GOVERNOR_REDIS_HOST']:ENV['GOVERNOR_REDIS_PORT']" %>
+  channel_prefix: <%= ENV['GOVERNOR_REDIS_PUBSUB_CHANNEL_PREFIX'] %>

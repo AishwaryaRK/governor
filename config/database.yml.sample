@@ -1,0 +1,16 @@
+default: &default
+  adapter:  postgresql
+  encoding: unicode
+  host:     <%= ENV['GOVERNOR_POSTGRESQL_DB_HOST'] %>
+  port:     <%= ENV['GOVERNOR_POSTGRESQL_DB_PORT'] %>
+  database: <%= ENV['GOVERNOR_POSTGRESQL_DB_NAME'] %>
+  user:     <%= ENV['GOVERNOR_POSTGRESQL_DB_USERNAME'] %>
+  password: <%= ENV['GOVERNOR_POSTGRESQL_DB_PASSWORD'] %>
+  pool:     <%= ENV['GOVERNOR_POSTGRESQL_DB_CONNECTION_POOL_SIZE'] %>
+  timeout:  <%= ENV['GOVERNOR_POSTGRESQL_DB_CONNECTION_TIMEOUT'] %>
+
+test:
+  <<: *default
+
+development:
+  <<: *default
