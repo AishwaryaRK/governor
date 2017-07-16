@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  devise :database_authenticatable,
-         :registerable,
+  has_many :accounts
+
+  devise :registerable,
          :recoverable,
          :rememberable,
          :trackable,
@@ -13,40 +14,22 @@ class User < ApplicationRecord
                 :case_sensitive => false
             }
 
-  # noinspection RailsParamDefResolve
-  validates_format_of :username,
-                      :with      => /^[a-zA-Z0-9_\.]*$/,
-                      :multiline => true
-
-  validate :validate_username
-
-
   class << self
-    # noinspection RubyClassMethodNamingConvention
-    def find_for_database_authentication(warden_conditions)
-      conditions = warden_conditions.dup
-      login      = conditions.delete(:login)
-      if login
-        where(conditions.to_h).where(['lower(username) = :value OR lower(email) = :value',
-                                      {:value => login.downcase}]).first
-      elsif conditions.has_key?(:username) || conditions.has_key?(:email)
-        where(conditions.to_h).first
-      end
+    def find_for_token(type, token)
+      account = Account.find_for_token(type, token)
+      account.user if account
     end
-  end
 
-  def login=(login)
-    @login = login
-  end
+    def create_with_token(type, token)
+      create(:name     => token.info.name,
+             :email    => token.info.email,
+             :username => SecureRandom.base58(48),
+             :password => SecureRandom.base58(48),
+             :accounts => [Account.create_with_token(type, token)])
+    end
 
-  def login
-    @login || self.username || self.email
-  end
-
-
-  def validate_username
-    if User.where(email: username).exists?
-      errors.add(:username, :invalid)
+    def find_for_or_create_with_token(type, token)
+      find_for_token(type, token) || create_with_token(type, token)
     end
   end
 end

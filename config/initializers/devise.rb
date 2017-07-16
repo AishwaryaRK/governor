@@ -8,9 +8,9 @@ Devise.setup do |config|
                   ENV['GOVERNOR_APP_GOOGLE_CLIENT_ID'],
                   ENV['GOVERNOR_APP_GOOGLE_CLIENT_SECRET'],
                   hd: ENV['GOVERNOR_APP_HOSTED_DOMAIN']
-  config.authentication_keys                = [:login]
-  config.case_insensitive_keys              = [:login, :username, :email]
-  config.strip_whitespace_keys              = [:login, :username, :email]
+  config.authentication_keys                = []
+  config.case_insensitive_keys              = []
+  config.strip_whitespace_keys              = []
   config.skip_session_storage               = [:http_auth]
   config.stretches                          = Rails.env.test? ? 1 : 11
   config.reconfirmable                      = true

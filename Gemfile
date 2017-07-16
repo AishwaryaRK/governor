@@ -7,9 +7,11 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'coffee-rails', '~> 4.2'
+gem 'activeadmin', '~> 1.0.0'
+gem 'coffee-rails', '~> 4.2.0'
 gem 'devise', '~> 4.3.0'
 gem 'health-monitor-rails', '~> 7.2.2'
+gem 'haikunator', '~> 1.1.0'
 gem 'jbuilder', '~> 2.7.0'
 gem 'omniauth', '~> 1.6.1'
 gem 'omniauth-google-oauth2', '~> 0.5.0'
@@ -34,5 +36,5 @@ group :development do
   gem 'listen', '~> 3.1.5'
   gem 'spring', '~> 2.0.2'
   gem 'spring-watcher-listen', '~> 2.0.1'
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console', '~> 3.5.1'
 end

@@ -10,32 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170716112355) do
+ActiveRecord::Schema.define(version: 20170810121715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
+
+  create_table "accounts", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.bigint "user_id"
+    t.text "uid", default: "", null: false
+    t.text "provider", default: "", null: false
+    t.text "type", default: "", null: false
+    t.json "token", default: {}
+    t.json "features", default: {}
+    t.json "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["provider"], name: "accounts_provider_idx"
+    t.index ["uid"], name: "accounts_uid_unq_idx", unique: true
+    t.index ["user_id"], name: "accounts_users_id_unq_idx", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
-    t.string "username", default: "", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.text "name", default: "", null: false
+    t.text "email", default: "", null: false
+    t.text "username", default: "", null: false
+    t.text "password", default: "", null: false
+    t.json "features", default: {}
+    t.json "metadata", default: {}
+    t.bigint "sign_in_count", default: 0, null: false
     t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
-    t.integer "failed_attempts", default: 0, null: false
-    t.string "unlock_token"
-    t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
+    t.datetime "deleted_at"
+    t.index ["username"], name: "users_username_idx", unique: true
   end
 
+  add_foreign_key "accounts", "users", name: "accounts_user_id_fk"
 end

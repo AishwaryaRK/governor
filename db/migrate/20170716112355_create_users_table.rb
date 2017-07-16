@@ -1,31 +1,33 @@
 class CreateUsersTable < ActiveRecord::Migration[5.1]
   def change
-    create_table :users do |tbl|
-      tbl.string :username, :null => false, :default => ''
-      tbl.string :email, :null => false, :default => ''
-      tbl.string :encrypted_password, :null => false, :default => ''
+    enable_extension 'uuid-ossp'
 
-      tbl.string :reset_password_token
-      tbl.datetime :reset_password_sent_at
+    create_table :users, :id => :bigserial do |tbl|
+      tbl.uuid :uuid, :default => 'uuid_generate_v4()'
+
+      tbl.text :name, :null => false, :default => ''
+      tbl.text :email, :null => false, :default => ''
+
+      tbl.text :username, :null => false, :default => ''
+      tbl.text :password, :null => false, :default => ''
+
+      tbl.json :features, :default => {}
+      tbl.json :metadata, :default => {}
+
+      tbl.bigint :sign_in_count, :default => 0, :null => false
 
       tbl.datetime :remember_created_at
-      tbl.integer :sign_in_count, :default => 0, :null => false
-
       tbl.datetime :current_sign_in_at
       tbl.datetime :last_sign_in_at
+
       tbl.inet :current_sign_in_ip
       tbl.inet :last_sign_in_ip
 
-      tbl.integer :failed_attempts, :default => 0, :null => false
-      tbl.string :unlock_token
-      tbl.datetime :locked_at
-
-      tbl.timestamps :null => false
+      tbl.datetime :created_at, :null => false
+      tbl.datetime :updated_at, :null => false
+      tbl.datetime :deleted_at, :null => true
     end
 
-    add_index :users, :email, :unique => true
-    add_index :users, :username, :unique => true
-    add_index :users, :reset_password_token, :unique => true
-    add_index :users, :unlock_token, :unique => true
+    add_index :users, :username, :name => 'users_username_idx', :unique => true
   end
 end

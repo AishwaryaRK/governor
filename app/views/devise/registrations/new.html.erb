@@ -9,11 +9,6 @@
   </div>
 
   <div class="field">
-    <%= frm.label :email %><br />
-    <%= frm.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="field">
     <%= frm.label :password %>
     <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> characters minimum)</em>
