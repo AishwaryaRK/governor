@@ -4,7 +4,8 @@ class User < ApplicationRecord
          :recoverable,
          :rememberable,
          :trackable,
-         :validatable
+         :validatable,
+         :omniauthable
 
   validates :username,
             :presence   => true,
