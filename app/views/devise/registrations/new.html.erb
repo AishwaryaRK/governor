@@ -1,0 +1,34 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |frm| %>
+  <%= devise_error_messages! %>
+
+  <div class="field">
+    <%= frm.label :username %><br />
+    <%= frm.text_field :username, :autofocus => true %>
+  </div>
+
+  <div class="field">
+    <%= frm.label :email %><br />
+    <%= frm.email_field :email, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= frm.label :password %>
+    <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= frm.password_field :password, :autocomplete => 'off' %>
+  </div>
+
+  <div class="field">
+    <%= frm.label :password_confirmation %><br />
+    <%= frm.password_field :password_confirmation, :autocomplete => 'off' %>
+  </div>
+
+  <div class="actions">
+    <%= frm.submit 'Sign Up' %>
+  </div>
+<% end %>
+
+<%= render 'devise/shared/links' %>

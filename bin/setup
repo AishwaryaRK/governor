@@ -27,7 +27,7 @@ chdir APP_ROOT do
     system!(%Q{
 cat .env.#{environment}.m4 | m4 \\
 -D__GOVERNOR_APP_SECRET_KEY_BASE__=$(bundle exec rake secret) \\
--D__GOVERNOR_APP_DEVISE_MAILER_SENDER__=$(bundle exec rake secret) \\
+-D__GOVERNOR_APP_DEVISE_SECRET_KEY__=$(bundle exec rake secret) \\
 > .env.#{environment}})
   end
 
