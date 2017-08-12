@@ -6,13 +6,19 @@ Rails.application.configure do
   if Rails.root.join('tmp/caching-dev.txt').exist?
     puts '== Caching Enabled =='
     config.action_controller.perform_caching = true
-    config.cache_store                       = [:redis_store,
-                                                ::Governor::redis_credentials
-                                                    .merge({db:        ENV['GOVERNOR_REDIS_CACHE_DATABASE'].to_i,
-                                                            namespace: ENV['GOVERNOR_REDIS_CACHE_NAMESPACE']}),
-                                                {expires_in: ENV['GOVERNOR_REDIS_CACHE_EXPIRY']}]
-    config.public_file_server.headers        = {
-        'Cache-Control' => "public, max-age=#{ENV['GOVERNOR_REDIS_CACHE_EXPIRY']}"
+
+    config.cache_store = [:redis_store,
+                          ::Governor.redis_credentials
+                              .merge({db:        ::Governor::Config[:redis,
+                                                                    :cache,
+                                                                    :database].to_i,
+                                      namespace: ::Governor::Config[:redis,
+                                                                    :cache,
+                                                                    :namespace]}),
+                          {expires_in: ::Governor::Config[:redis, :cache, :expiry]}]
+
+    config.public_file_server.headers = {
+        'Cache-Control' => "public, max-age=#{::Governor::Config[:redis, :cache, :expiry]}"
     }
   else
     config.action_controller.perform_caching = false
@@ -26,6 +32,15 @@ Rails.application.configure do
   config.assets.debug                        = true
   config.assets.quiet                        = true
   config.file_watcher                        = ActiveSupport::EventedFileUpdateChecker
-  config.action_mailer.default_url_options   = {:host => ENV['GOVERNOR_PUMA_HOST'],
-                                                :port => ENV['GOVERNOR_PUMA_PORT'].to_i}
+
+  config.action_mailer.default_url_options = {:host => ::Governor::Config[:puma, :host],
+                                              :port => ::Governor::Config[:puma, :port].to_i}
+
+  config.public_file_server.enabled = ::Governor::Feature[:rails_serve_static_files?]
+
+  if ::Governor::Feature[:rails_log_to_stdout?]
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  end
 end

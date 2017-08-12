@@ -42,7 +42,7 @@ class Ping
   def check_pubsub!
     @pubsub = with_timing do
       client  = Redis.new(Governor.redis_credentials)
-      channel = ENV['GOVERNOR_REDIS_PUBSUB_CHANNEL_PING']
+      channel = "#{Governor::Config[:redis_pubsub_channel_prefix]}__ping"
       message = 'PONG'
       client.publish(channel, message)
       message
@@ -53,7 +53,7 @@ class Ping
   def check!
     check_database!
     check_cache!
-    check_pubsub! if ENV['GOVERNOR_REDIS_PUBSUB_CHANNEL_PING'].present?
+    check_pubsub! if Governor::Feature[:redis_pubsub_ping?]
   end
 
   def ok?
@@ -61,8 +61,8 @@ class Ping
   end
 
   def to_h
-    obj_hash         = {:database => @database,
-                        :cache    => @cache}
+    obj_hash          = {:database => @database,
+                         :cache    => @cache}
     obj_hash[:pubsub] = @pubsub unless @pubsub.empty?
     obj_hash
   end

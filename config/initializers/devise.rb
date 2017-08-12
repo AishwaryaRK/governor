@@ -1,13 +1,14 @@
 Devise.setup do |config|
-  config.secret_key    = ENV['GOVERNOR_APP_DEVISE_SECRET_KEY']
-  config.mailer_sender = ENV['GOVERNOR_APP_GOOGLE_CLIENT_SECRET']
+  config.secret_key    = Governor::Config[:app, :devise, :secret_key]
+  config.mailer_sender = Governor::Config[:app, :devise, :mailer_sender]
 
   require 'devise/orm/active_record'
 
   config.omniauth :google_oauth2,
-                  ENV['GOVERNOR_APP_GOOGLE_CLIENT_ID'],
-                  ENV['GOVERNOR_APP_GOOGLE_CLIENT_SECRET'],
-                  hd: ENV['GOVERNOR_APP_HOSTED_DOMAIN']
+                  Governor::Config[:app, :google, :client, :id],
+                  Governor::Config[:app, :google, :client, :secret],
+                  hd: Governor::Config[:app, :hosted, :domain]
+
   config.authentication_keys                = []
   config.case_insensitive_keys              = []
   config.strip_whitespace_keys              = []
