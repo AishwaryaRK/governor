@@ -4,6 +4,8 @@ require 'rails/all'
 
 Bundler.require(*Rails.groups)
 
+require 'chuck'
+
 # noinspection RubyConstantNamingConvention
 R_ = Rodash
 

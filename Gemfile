@@ -8,6 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'activeadmin', '~> 1.0.0'
+gem 'chucksay', '~> 0.0.3'
 gem 'coffee-rails', '~> 4.2.0'
 gem 'devise', '~> 4.3.0'
 gem 'health-monitor-rails', '~> 7.2.2'

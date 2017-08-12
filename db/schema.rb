@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170810121715) do
+ActiveRecord::Schema.define(version: 20170811114626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,24 @@ ActiveRecord::Schema.define(version: 20170810121715) do
     t.index ["provider"], name: "accounts_provider_idx"
     t.index ["uid"], name: "accounts_uid_unq_idx", unique: true
     t.index ["user_id"], name: "accounts_users_id_unq_idx", unique: true
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.bigint "user_id"
+    t.text "display_name", default: "", null: false
+    t.text "public_email", default: "", null: false
+    t.text "avatar_url", default: "", null: false
+    t.text "website", default: "", null: false
+    t.text "company", default: "", null: false
+    t.text "location", default: "", null: false
+    t.text "biography", default: "", null: false
+    t.json "features", default: {}
+    t.json "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["user_id"], name: "profiles_users_id_unq_idx", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -54,4 +72,5 @@ ActiveRecord::Schema.define(version: 20170810121715) do
   end
 
   add_foreign_key "accounts", "users", name: "accounts_user_id_fk"
+  add_foreign_key "accounts", "users", name: "profiles_user_id_fk"
 end
