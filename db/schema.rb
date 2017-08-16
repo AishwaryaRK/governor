@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811114626) do
+ActiveRecord::Schema.define(version: 20170815142210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,54 @@ ActiveRecord::Schema.define(version: 20170811114626) do
     t.index ["provider"], name: "accounts_provider_idx"
     t.index ["uid"], name: "accounts_uid_unq_idx", unique: true
     t.index ["user_id"], name: "accounts_users_id_unq_idx", unique: true
+  end
+
+  create_table "oauth_access_grants", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.bigint "resource_owner_id", null: false
+    t.bigint "application_id", null: false
+    t.bigint "expires_in", null: false
+    t.text "redirect_uri", null: false
+    t.text "token", null: false
+    t.text "scopes"
+    t.datetime "revoked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["application_id"], name: "index_oauth_access_grants_on_application_id"
+    t.index ["token"], name: "oauth_access_grants_token_idx", unique: true
+  end
+
+  create_table "oauth_access_tokens", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.bigint "resource_owner_id"
+    t.bigint "application_id"
+    t.text "token", null: false
+    t.text "refresh_token"
+    t.bigint "expires_in"
+    t.bigint "previous_refresh_token", null: false
+    t.text "scopes"
+    t.datetime "revoked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["application_id"], name: "index_oauth_access_tokens_on_application_id"
+    t.index ["refresh_token"], name: "oauth_access_tokens_refresh_token_idx", unique: true
+    t.index ["resource_owner_id"], name: "oauth_access_tokens_resource_owner_id_idx"
+    t.index ["token"], name: "oauth_access_tokens_token_idx", unique: true
+  end
+
+  create_table "oauth_applications", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.text "uid", null: false
+    t.text "name", null: false
+    t.text "secret", null: false
+    t.text "redirect_uri", null: false
+    t.text "scopes", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["uid"], name: "oauth_applications_uid_idx", unique: true
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -73,4 +121,6 @@ ActiveRecord::Schema.define(version: 20170811114626) do
 
   add_foreign_key "accounts", "users", name: "accounts_user_id_fk"
   add_foreign_key "accounts", "users", name: "profiles_user_id_fk"
+  add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id", name: "oauth_access_grants_application_id_fk"
+  add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id", name: "oauth_access_tokens_application_id_fk"
 end
