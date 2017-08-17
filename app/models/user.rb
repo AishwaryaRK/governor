@@ -1,13 +1,8 @@
 class User < ApplicationRecord
+  devise :cas_authenticatable
+
   has_many :accounts
   has_one :profile
-
-  devise :registerable,
-         :recoverable,
-         :rememberable,
-         :trackable,
-         :validatable,
-         :omniauthable
 
   validates :username,
             :presence   => true,

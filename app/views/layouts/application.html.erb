@@ -14,14 +14,14 @@
 
 <% if user_signed_in? %>
   <li>
-    Welcome <%= current_user.name %>
+    Welcome <%= current_user.username %>
   </li>
   <li>
     <%= link_to('Logout', users_sign_out_path, method: :delete) %>
   </li>
 <% else %>
   <li>
-    <%= link_to 'Login with Google', user_google_oauth2_omniauth_authorize_path %>
+    <%= link_to 'Login', 'users/sign_in' %>
   </li>
 <% end %>
 

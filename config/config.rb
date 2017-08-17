@@ -25,7 +25,8 @@ module Governor
         },
         :app   => {
             :devise => {
-                :secret_key  => 'GOVERNOR_APP_DEVISE_SECRET_KEY',
+                :cas_base_url  => 'GOVERNOR_APP_DEVISE_CAS_BASE_URL',
+                :secret_key    => 'GOVERNOR_APP_DEVISE_SECRET_KEY',
                 :mailer_sender => 'GOVERNOR_APP_DEVISE_MAILER_SENDER'
             },
             :google => {
