@@ -1,0 +1,11 @@
+<% if @saml_idp_fail_msg %>
+  <div id="saml_idp_fail_msg" class="flash error"><%= @saml_idp_fail_msg %></div>
+<% end %>
+
+<%= form_tag do %>
+  <%= hidden_field_tag('SAMLRequest', params[:SAMLRequest]) %>
+  <%= hidden_field_tag('RelayState', params[:RelayState]) %>
+  <p>
+    <%= submit_tag 'let me in' %>
+  </p>
+<% end %>

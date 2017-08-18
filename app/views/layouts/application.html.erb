@@ -17,11 +17,11 @@
     Welcome <%= current_user.username %>
   </li>
   <li>
-    <%= link_to('Logout', users_sign_out_path, method: :delete) %>
+    <%= link_to('Logout', '/logout', :method => :delete) %>
   </li>
 <% else %>
   <li>
-    <%= link_to 'Login', 'users/sign_in' %>
+    <%= link_to 'Login', '/login' %>
   </li>
 <% end %>
 

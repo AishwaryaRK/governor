@@ -24,6 +24,10 @@ module Governor
             :env => 'RAILS_ENV'
         },
         :app   => {
+            :saml   => {
+                :sp_base        => 'GOVERNOR_APP_SAML_SP_BASE',
+                :sp_fingerprint => 'GOVERNOR_APP_SAML_SP_FINGERPRINT'
+            },
             :devise => {
                 :cas_base_url  => 'GOVERNOR_APP_DEVISE_CAS_BASE_URL',
                 :secret_key    => 'GOVERNOR_APP_DEVISE_SECRET_KEY',

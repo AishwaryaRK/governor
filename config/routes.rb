@@ -1,25 +1,24 @@
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
-  devise_for :users, :skip => [:registrations]
+  devise_for :users
 
   devise_scope :user do
-    delete '/users/sign_out' => 'devise/sessions#destroy'
+    get '/login', :to => 'devise/cas_sessions#new'
+    post '/login', :to => 'devise/cas_sessions#create'
+    delete '/logout', :to => 'devise/cas_sessions#destroy'
+
+    get '/saml/init', :to => 'saml#init'
+    post '/saml/consume', :to => 'saml#consume'
+
+    get '/saml/auth', :to => 'saml_idp#new'
+    post '/saml/auth', :to => 'saml_idp#create'
+    get '/saml/metadata', :to => 'saml_idp#show'
   end
 
-  mount HealthMonitor::Engine, at: '/_'
+  mount HealthMonitor::Engine, :at => '/_'
 
-  root to: 'home#index'
-
-
-  devise_scope :user do
-    delete '/users/sign_out' => 'devise/sessions#destroy'
-  end
+  root :to => 'home#index'
 
   get '_ping', :controller => :ping, :action => :index
-
-  get '/saml/auth' => 'saml_idp#new'
-  get '/saml/metadata' => 'saml_idp#show'
-  post '/saml/auth' => 'saml_idp#create'
-  match '/saml/logout' => 'saml_idp#logout', via: [:get, :post, :delete]
 end
