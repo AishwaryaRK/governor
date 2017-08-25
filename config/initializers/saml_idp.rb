@@ -9,10 +9,40 @@ SamlIdp.configure do |config|
       },
   }
 
+  config.organization_name            = 'Governor'
+  config.organization_url             = Governor::Config[:app, :saml_idp, :sp_base]
+  config.base_saml_location           = "#{base}/saml"
+  config.single_service_post_location = "#{base}/saml/auth"
+  config.session_expiry               = 3600
+
   config.name_id.formats = {
       transient:     -> (principal) {"#{principal.username}@governor.example.com"},
       persistent:    -> (principal) {"#{principal.username}@governor.example.com"},
       email_address: -> (principal) {"#{principal.username}@governor.example.com"}
+  }
+
+  config.attributes = {
+      'eduPersonPrincipalName' => {
+          'name'        => 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6',
+          'name_format' => 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri',
+          'getter'      => ->(principal) {
+            "#{principal.username}@go-jek.com"
+          }
+      },
+      'sn'                     => {
+          'name'        => 'urn:oid:2.5.4.4',
+          'name_format' => 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri',
+          'getter'      => ->(principal) {
+            principal.username
+          }
+      },
+      'givenName'              => {
+          'name'        => 'urn:oid:2.5.4.42',
+          'name_format' => 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri',
+          'getter'      => ->(principal) {
+            principal.username
+          }
+      }
   }
 
   config.service_provider.metadata_persister = ->(identifier, settings) {

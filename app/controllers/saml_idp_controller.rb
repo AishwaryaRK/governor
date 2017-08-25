@@ -3,8 +3,12 @@ class SamlIdpController < ApplicationController
 
   before_action :validate_saml_request, :only => [:new, :create]
 
+  protect_from_forgery :except => [:new, :create]
+
   def new
-    render 'saml_idp/new'
+    @saml_request    = params[:SAMLRequest]
+    @relay_state     = params[:RelayState]
+    render 'saml_idp/new', :layout => 'auto_submit_form'
   end
 
   def show
@@ -13,21 +17,25 @@ class SamlIdpController < ApplicationController
 
   def create
     if idp_authenticate
-      @saml_response = idp_make_saml_response
-      render 'saml_idp/saml_post'
-    else
-      @saml_idp_fail_msg = 'Incorrect email or password.'
-      render 'saml_idp/new'
+      @saml_response     = idp_make_saml_response
+      @relay_state       = params[:RelayState]
+      render 'saml_idp/create', :layout => 'auto_submit_form'
     end
   end
 
-  def logout
+  def destroy
     idp_logout
-    @saml_response = idp_make_saml_response
-    render 'saml_idp/saml_post'
+    @saml_response   = idp_make_saml_response
+    @relay_state     = params[:RelayState]
+    render 'saml_idp/destroy', :layout => 'auto_submit_form'
   end
 
   private
+
+  def validate_saml_request(raw_saml_request = params[:SAMLRequest])
+    decode_request(raw_saml_request)
+    raise ApplicationController::NotAuthorized.new(:unauthorized) unless valid_saml_request?
+  end
 
   def idp_authenticate
     current_user
