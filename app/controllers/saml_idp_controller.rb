@@ -42,7 +42,7 @@ class SamlIdpController < ApplicationController
   end
 
   def idp_make_saml_response
-    encode_response current_user
+    encode_response( current_user, :expiry => 50 * 60)
   end
 
   def idp_logout

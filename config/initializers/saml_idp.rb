@@ -13,7 +13,7 @@ SamlIdp.configure do |config|
   config.organization_url             = Governor::Config[:app, :saml_idp, :sp_base]
   config.base_saml_location           = "#{base}/saml"
   config.single_service_post_location = "#{base}/saml/auth"
-  config.session_expiry               = 3600
+  config.session_expiry               = 50 * 60
 
   config.name_id.formats = {
       transient:     -> (principal) {"#{principal.username}@governor.example.com"},
