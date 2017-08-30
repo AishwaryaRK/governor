@@ -24,23 +24,35 @@ module Governor
             :env => 'RAILS_ENV'
         },
         :app   => {
-            :saml   => {
-                :sp_base        => 'GOVERNOR_APP_SAML_SP_BASE',
-                :sp_domain      => 'GOVERNOR_APP_SAML_SP_DOMAIN',
-                :sp_fingerprint => 'GOVERNOR_APP_SAML_SP_FINGERPRINT'
+            :saml_idp => {
+                :sp_base                      => 'GOVERNOR_APP_SAML_IDP_SP_BASE',
+                :sp_domain                    => 'GOVERNOR_APP_SAML_IDP_SP_DOMAIN',
+                :sp_fingerprint               => 'GOVERNOR_APP_SAML_IDP_SP_FINGERPRINT',
+                :sp_data_dog_sso_url          => 'GOVERNOR_APP_SAML_IDP_SP_DATA_DOG_SSO_URL',
+                :sp_data_dog_metadata_url     => 'GOVERNOR_APP_SAML_IDP_SP_DATA_DOG_METADATA_URL',
+                :sp_new_relic_sso_url         => 'GOVERNOR_APP_SAML_IDP_SP_NEW_RELIC_SSO_URL',
+                :sp_new_relic_metadata_url    => 'GOVERNOR_APP_SAML_IDP_SP_NEW_RELIC_METADATA_URL',
+                :sp_mixpanel_sso_url          => 'GOVERNOR_APP_SAML_IDP_SP_MIXPANEL_SSO_URL',
+                :sp_mixpanel_metadata_url     => 'GOVERNOR_APP_SAML_IDP_SP_MIXPANEL_METADATA_URL',
+                :organization_name            => 'GOVERNOR_APP_SAML_IDP_ORGANIZATION_NAME',
+                :organization_url             => 'GOVERNOR_APP_SAML_IDP_ORGANIZATION_URL',
+                :base_saml_location           => 'GOVERNOR_APP_SAML_IDP_BASE_SAML_LOCATION',
+                :single_service_post_location => 'GOVERNOR_APP_SAML_IDP_SINGLE_SERVICE_POST_LOCATION',
+                :response_expiry              => 'GOVERNOR_APP_SAML_IDP_RESPONSE_EXPIRY',
+                :session_expiry               => 'GOVERNOR_APP_SAML_IDP_SESSION_EXPIRY'
             },
-            :devise => {
+            :devise   => {
                 :cas_base_url  => 'GOVERNOR_APP_DEVISE_CAS_BASE_URL',
                 :secret_key    => 'GOVERNOR_APP_DEVISE_SECRET_KEY',
                 :mailer_sender => 'GOVERNOR_APP_DEVISE_MAILER_SENDER'
             },
-            :google => {
+            :google   => {
                 :client => {
                     :id     => 'GOVERNOR_APP_GOOGLE_CLIENT_ID',
                     :secret => 'GOVERNOR_APP_GOOGLE_CLIENT_SECRET'
                 }
             },
-            :hosted => {
+            :hosted   => {
                 :domain => 'GOVERNOR_APP_HOSTED_DOMAIN'
             }
         }

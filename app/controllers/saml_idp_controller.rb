@@ -1,6 +1,8 @@
 class SamlIdpController < ApplicationController
   include SamlIdp::Controller
 
+  RESPONSE_EXPIRY = Governor::Config[:app, :saml_idp, :response_expiry].to_i
+
   before_action :validate_saml_request, :only => [:new, :create]
 
   protect_from_forgery :except => [:new, :create]
@@ -42,7 +44,7 @@ class SamlIdpController < ApplicationController
   end
 
   def idp_make_saml_response
-    encode_response(current_user, :expiry => (50 * 60))
+    encode_response(current_user, :expiry => RESPONSE_EXPIRY)
   end
 
   def idp_logout

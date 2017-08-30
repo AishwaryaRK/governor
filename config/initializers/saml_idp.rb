@@ -1,20 +1,41 @@
 SamlIdp.configure do |config|
   # noinspection RubyUnusedLocalVariable
   base   = Governor::Config[:app, :saml_idp, :sp_base]
-  domain = Governor::Config[:app, :saml_idp, :sp_base]
+  domain = Governor::Config[:app, :saml_idp, :sp_domain]
+
+  config.x509_certificate = <<-CERT
+-----BEGIN CERTIFICATE-----
+#{Governor::Config[:app, :saml_idp, :x509_certificate]}
+-----END CERTIFICATE-----
+  CERT
+
+  config.secret_key = <<-CERT
+-----BEGIN RSA PRIVATE KEY-----
+#{Governor::Config[:app, :saml_idp, :secret_key]}
+-----END RSA PRIVATE KEY-----
+  CERT
 
   service_providers = {
-      "#{base}/saml" => {
+      Governor::Config[:app, :saml_idp, :sp_data_dog_sso_url]  => {
           :fingerprint  => Governor::Config[:app, :saml_idp, :sp_fingerprint],
-          :metadata_url => "#{base}/saml/metadata"
+          :metadata_url => Governor::Config[:app, :saml_idp, :sp_data_dog_metadata_url]
       },
+      Governor::Config[:app, :saml_idp, :sp_new_relic_sso_url] => {
+          :fingerprint  => Governor::Config[:app, :saml_idp, :sp_fingerprint],
+          :metadata_url => Governor::Config[:app, :saml_idp, :sp_new_relic_metadata_url]
+      },
+      Governor::Config[:app, :saml_idp, :sp_mixpanel_sso_url]  => {
+          :fingerprint  => Governor::Config[:app, :saml_idp, :sp_fingerprint],
+          :metadata_url => Governor::Config[:app, :saml_idp, :sp_mixpanel_metadata_url]
+      }
   }
 
-  config.organization_name            = 'Governor'
-  config.organization_url             = Governor::Config[:app, :saml_idp, :sp_base]
-  config.base_saml_location           = "#{base}/saml"
-  config.single_service_post_location = "#{base}/saml/auth"
-  config.session_expiry               = (50 * 60)
+  config.organization_name = Governor::Config[:app, :saml_idp, :organization_name]
+  config.organization_url  = Governor::Config[:app, :saml_idp, :organization_url]
+
+  config.base_saml_location           = Governor::Config[:app, :saml_idp, :base_saml_location]
+  config.single_service_post_location = Governor::Config[:app, :saml_idp, :single_service_post_location]
+  config.session_expiry               = Governor::Config[:app, :saml_idp, :session_expiry].to_i
 
   config.name_id.formats = {
       transient:     -> (principal) {"#{principal.username}@#{domain}"},
@@ -54,7 +75,7 @@ SamlIdp.configure do |config|
     end
   }
 
-  config.service_provider.persisted_metadata_getter = ->(identifier, service_provider) {
+  config.service_provider.persisted_metadata_getter = ->(identifier, _service_provider) {
     fname = identifier.to_s.gsub(/\/|:/, '_')
     `mkdir -p #{Rails.root.join('cache/saml/metadata')}`
     full_filename = Rails.root.join("cache/saml/metadata/#{fname}")
