@@ -1,11 +1,12 @@
 SamlIdp.configure do |config|
   # noinspection RubyUnusedLocalVariable
-  base = Governor::Config[:app, :saml_idp, :sp_base]
+  base   = Governor::Config[:app, :saml_idp, :sp_base]
+  domain = Governor::Config[:app, :saml_idp, :sp_base]
 
   service_providers = {
-      "#{Governor::Config[:app, :saml_idp, :sp_base]}/saml" => {
+      "#{base}/saml" => {
           :fingerprint  => Governor::Config[:app, :saml_idp, :sp_fingerprint],
-          :metadata_url => "#{Governor::Config[:app, :saml_idp, :sp_base]}/saml/metadata"
+          :metadata_url => "#{base}/saml/metadata"
       },
   }
 
@@ -13,12 +14,12 @@ SamlIdp.configure do |config|
   config.organization_url             = Governor::Config[:app, :saml_idp, :sp_base]
   config.base_saml_location           = "#{base}/saml"
   config.single_service_post_location = "#{base}/saml/auth"
-  config.session_expiry               = 50 * 60
+  config.session_expiry               = (50 * 60)
 
   config.name_id.formats = {
-      transient:     -> (principal) {"#{principal.username}@governor.example.com"},
-      persistent:    -> (principal) {"#{principal.username}@governor.example.com"},
-      email_address: -> (principal) {"#{principal.username}@governor.example.com"}
+      transient:     -> (principal) {"#{principal.username}@#{domain}"},
+      persistent:    -> (principal) {"#{principal.username}@#{domain}"},
+      email_address: -> (principal) {"#{principal.username}@#{domain}"}
   }
 
   config.attributes = {
@@ -26,7 +27,7 @@ SamlIdp.configure do |config|
           'name'        => 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6',
           'name_format' => 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri',
           'getter'      => ->(principal) {
-            "#{principal.username}@go-jek.com"
+            "#{principal.username}@#{domain}"
           }
       },
       'sn'                     => {

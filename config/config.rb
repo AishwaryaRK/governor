@@ -26,6 +26,7 @@ module Governor
         :app   => {
             :saml   => {
                 :sp_base        => 'GOVERNOR_APP_SAML_SP_BASE',
+                :sp_domain      => 'GOVERNOR_APP_SAML_SP_DOMAIN',
                 :sp_fingerprint => 'GOVERNOR_APP_SAML_SP_FINGERPRINT'
             },
             :devise => {
