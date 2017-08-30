@@ -25,6 +25,14 @@ module Governor
         },
         :app   => {
             :saml_idp => {
+                :x509_certificate             => 'GOVERNOR_APP_SAML_IDP_X509_CERTIFICATE',
+                :secret_key                   => 'GOVERNOR_APP_SAML_IDP_SECRET_KEY',
+                :organization_name            => 'GOVERNOR_APP_SAML_IDP_ORGANIZATION_NAME',
+                :organization_url             => 'GOVERNOR_APP_SAML_IDP_ORGANIZATION_URL',
+                :base_saml_location           => 'GOVERNOR_APP_SAML_IDP_BASE_SAML_LOCATION',
+                :single_service_post_location => 'GOVERNOR_APP_SAML_IDP_SINGLE_SERVICE_POST_LOCATION',
+                :response_expiry              => 'GOVERNOR_APP_SAML_IDP_RESPONSE_EXPIRY',
+                :session_expiry               => 'GOVERNOR_APP_SAML_IDP_SESSION_EXPIRY',
                 :sp_base                      => 'GOVERNOR_APP_SAML_IDP_SP_BASE',
                 :sp_domain                    => 'GOVERNOR_APP_SAML_IDP_SP_DOMAIN',
                 :sp_fingerprint               => 'GOVERNOR_APP_SAML_IDP_SP_FINGERPRINT',
@@ -34,12 +42,6 @@ module Governor
                 :sp_new_relic_metadata_url    => 'GOVERNOR_APP_SAML_IDP_SP_NEW_RELIC_METADATA_URL',
                 :sp_mixpanel_sso_url          => 'GOVERNOR_APP_SAML_IDP_SP_MIXPANEL_SSO_URL',
                 :sp_mixpanel_metadata_url     => 'GOVERNOR_APP_SAML_IDP_SP_MIXPANEL_METADATA_URL',
-                :organization_name            => 'GOVERNOR_APP_SAML_IDP_ORGANIZATION_NAME',
-                :organization_url             => 'GOVERNOR_APP_SAML_IDP_ORGANIZATION_URL',
-                :base_saml_location           => 'GOVERNOR_APP_SAML_IDP_BASE_SAML_LOCATION',
-                :single_service_post_location => 'GOVERNOR_APP_SAML_IDP_SINGLE_SERVICE_POST_LOCATION',
-                :response_expiry              => 'GOVERNOR_APP_SAML_IDP_RESPONSE_EXPIRY',
-                :session_expiry               => 'GOVERNOR_APP_SAML_IDP_SESSION_EXPIRY'
             },
             :devise   => {
                 :cas_base_url  => 'GOVERNOR_APP_DEVISE_CAS_BASE_URL',
