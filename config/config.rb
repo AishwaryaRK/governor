@@ -1,6 +1,6 @@
 module Governor
   class Config
-    CONFIGS = {
+    CONFIGS ={
         :redis => {
             :host                  => 'GOVERNOR_REDIS_HOST',
             :port                  => 'GOVERNOR_REDIS_PORT',
@@ -58,7 +58,7 @@ module Governor
                 :domain => 'GOVERNOR_APP_HOSTED_DOMAIN'
             }
         }
-    }
+    }.freeze
 
     class << self
       def [](*config)
@@ -73,7 +73,7 @@ module Governor
         :redis_pubsub_ping        => 'GOVERNOR_REDIS_PUBSUB_PING',
         :rails_serve_static_files => 'GOVERNOR_RAILS_SERVE_STATIC_FILES',
         :rails_log_to_stdout      => 'GOVERNOR_RAILS_LOG_TO_STDOUT'
-    }
+    }.freeze
 
     class << self
       def [](feature)

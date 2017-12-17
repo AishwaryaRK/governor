@@ -2,9 +2,13 @@
 
 VENDOR_PATH = File.expand_path('..', __dir__)
 
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
 Dir.chdir(VENDOR_PATH) do
   begin
-    exec "yarnpkg #{ARGV.join(' ')}"
+    system!("yarnpkg #{ARGV.join(' ')}")
   rescue Errno::ENOENT
     $stderr.puts('Yarn executable was not detected in the system.')
     $stderr.puts('Download Yarn at https://yarnpkg.com/en/docs/install')

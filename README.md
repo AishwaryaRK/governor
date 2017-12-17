@@ -7,16 +7,18 @@ Governor - A SSO platform for centralised authentication across OpenVPN and Orga
 
 ```
 try,
+  make nuke
   make init
+  make test
   make serv
 
-or,
+or just,
   make
 ```
 
 ## License
 ```
-Copyright 2016, GO-JEK Tech (tech@go-jek.com)
+Copyright 2016, GO-JEK Farm (http://gojek.farm)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
