@@ -77,7 +77,7 @@ module Governor
 
     class << self
       def [](feature)
-        feature     = feature.to_s.gsub('?', '').to_sym
+        feature     = feature.to_s.delete('?', '').to_sym
         feature_env = FEATURES[feature]
         ENV[feature_env].present? if feature_env
       end
@@ -86,8 +86,8 @@ module Governor
 
   class << self
     def redis_credentials
-      credentials            = {:host => Config[:redis, :host],
-                                :port => Config[:redis, :port]}
+      credentials            = { :host => Config[:redis, :host],
+                                 :port => Config[:redis, :port] }
       credentials[:password] = Config[:redis, :password] if Config[:redis, :password]
       credentials
     end

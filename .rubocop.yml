@@ -26,3 +26,5 @@ Style/HashSyntax:
 # they're more readable + #MakeHashesGreatAgain
 Layout/IndentHash:
   Enabled: false
+Layout/SpaceAroundOperators:
+  Enabled: false
