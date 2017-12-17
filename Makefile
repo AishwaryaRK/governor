@@ -1,4 +1,4 @@
-SHELL := /usr/bin/env bash
+SHELL := /usr/bin/env bash -e
 
 .PHONY: spec
 
@@ -8,7 +8,7 @@ init:
 	./bin/setup
 
 deps:
-	bundle install --path vendor --binstubs bin/vendor
+	bundle install --path vendor/bundle --binstubs bin/vendor
 
 serv:
 	bundle exec rails server

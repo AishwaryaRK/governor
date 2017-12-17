@@ -17,8 +17,7 @@ Icon
 # Ignore bundler config and vendor.
 /.bundle
 /bin/vendor
-/vendor/ruby
-/vendor/jruby
+/vendor/bundle
 /node_modules
 
 # Ignore all logfiles and tempfiles.

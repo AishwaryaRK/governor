@@ -5,7 +5,7 @@ require 'fileutils'
 include FileUtils
 
 APP_ROOT    = Pathname.new File.expand_path('../../', __FILE__)
-APP_BUNDLER = "bundler --conservative --no-document --no-force --version '~> 1.5.1'"
+APP_BUNDLER = "bundler --conservative --no-document --no-force --version '~> 1.5.1'".freeze
 
 def system!(*args)
   system(*args) || abort("\n== Command #{args} failed ==")
@@ -40,4 +40,3 @@ cat .env.#{environment}.m4 | m4 \\
   puts '== Restarting application server =='
   system!('bin/rails restart')
 end
-
